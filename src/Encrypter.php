@@ -3,13 +3,13 @@
  * src/Encryption.php.
  *
  */
+
 namespace ESolution\DBEncryption;
 
 class Encrypter
 {
-
     /**
-     * @param string $value
+     * @param  string  $value
      *
      * @return string
      */
@@ -19,7 +19,7 @@ class Encrypter
     }
 
     /**
-     * @param string $value
+     * @param  string  $value
      *
      * @return string
      */
@@ -35,7 +35,8 @@ class Encrypter
      */
     protected static function getKey()
     {
-        $salt = substr(hash('sha256', config('laravelDatabaseEncryption.encrypt_key')), 0, 16);
+        $salt = substr(hash('sha256', config('app.key')), 0, 16);
+
         return $salt;
     }
 }

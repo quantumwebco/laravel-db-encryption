@@ -3,6 +3,7 @@
  * src/Providers/EncryptServiceProvider.php.
  *
  */
+
 namespace ESolution\DBEncryption\Providers;
 
 use Illuminate\Support\Facades\DB;
@@ -28,14 +29,13 @@ class DBEncryptionServiceProvider extends ServiceProvider
         $this->bootValidators();
 
         if ($this->app->runningInConsole()) {
-
             $this->publishes([
                 __DIR__.'/../Config/config.php' => config_path('laravelDatabaseEncryption.php'),
             ], 'config');
 
             $this->commands([
                 EncryptModel::class,
-                DecryptModel::class
+                DecryptModel::class,
             ]);
         }
     }
@@ -50,14 +50,11 @@ class DBEncryptionServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../Config/config.php', 'laravelDatabaseEncryption');
     }
 
-
     private function bootValidators()
     {
-
         Validator::extend('unique_encrypted', function ($attribute, $value, $parameters, $validator) {
-
             // Initialize
-            $salt = substr(hash('sha256', config('laravelDatabaseEncryption.encrypt_key')), 0, 16);
+            $salt = substr(hash('sha256', config('app.key')), 0, 16);
 
             $withFilter = count($parameters) > 3 ? true : false;
 
@@ -65,13 +62,13 @@ class DBEncryptionServiceProvider extends ServiceProvider
 
             // Check using normal checker
             $data = DB::table($parameters[0])->whereRaw("CONVERT(AES_DECRYPT(FROM_BASE64(`{$parameters[1]}`), '{$salt}') USING utf8mb4) = '{$value}' ");
-            $data = $ignore_id != '' ? $data->where('id','!=',$ignore_id) : $data;
+            $data = $ignore_id != '' ? $data->where('id', '!=', $ignore_id) : $data;
 
             if ($withFilter) {
                 $data->where($parameters[3], $parameters[4]);
             }
 
-            if($data->first()){
+            if ($data->first()) {
                 return false;
             }
 
@@ -79,20 +76,19 @@ class DBEncryptionServiceProvider extends ServiceProvider
         });
 
         Validator::extend('exists_encrypted', function ($attribute, $value, $parameters, $validator) {
-
             // Initialize
-            $salt = substr(hash('sha256', config('laravelDatabaseEncryption.encrypt_key')), 0, 16);
+            $salt = substr(hash('sha256', config('app.key')), 0, 16);
 
             $withFilter = count($parameters) > 3 ? true : false;
-            if(!$withFilter){
+            if (!$withFilter) {
                 $ignore_id = isset($parameters[2]) ? $parameters[2] : '';
-            }else{
+            } else {
                 $ignore_id = isset($parameters[4]) ? $parameters[4] : '';
             }
 
             // Check using normal checker
             $data = DB::table($parameters[0])->whereRaw("CONVERT(AES_DECRYPT(FROM_BASE64(`{$parameters[1]}`), '{$salt}') USING utf8mb4) = '{$value}' ");
-            $data = $ignore_id != '' ? $data->where('id','!=',$ignore_id) : $data;
+            $data = $ignore_id != '' ? $data->where('id', '!=', $ignore_id) : $data;
 
             if ($withFilter) {
                 $data->where($parameters[2], $parameters[3]);
