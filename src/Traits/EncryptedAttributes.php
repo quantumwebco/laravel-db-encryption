@@ -1,6 +1,6 @@
 <?php
 /**
- * src/Traits/EncryptedAttribute.php.
+ * src/Traits/EncryptedAttributes.php.
  *
  */
 
@@ -9,7 +9,7 @@ namespace Quantumweb\DBEncryption\Traits;
 use Quantumweb\DBEncryption\Builders\EncryptionEloquentBuilder;
 use Quantumweb\DBEncryption\Encrypter;
 
-trait EncryptedAttribute
+trait EncryptedAttributes
 {
     public function fromEncryptedString($value)
     {

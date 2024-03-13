@@ -58,10 +58,10 @@ For example:
 
 ```php
     
-    use Quantumweb\DBEncryption\Traits\EncryptedAttribute;
+    use Quantumweb\DBEncryption\Traits\EncryptedAttributes;
 
     class User extends Eloquent {
-        use EncryptedAttribute;
+        use EncryptedAttributes;
        
         /**
          * The attributes that should be encrypted on save.
