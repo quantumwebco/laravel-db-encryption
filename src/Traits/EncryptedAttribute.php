@@ -4,10 +4,10 @@
  *
  */
 
-namespace ESolution\DBEncryption\Traits;
+namespace Quantumweb\DBEncryption\Traits;
 
-use ESolution\DBEncryption\Builders\EncryptionEloquentBuilder;
-use ESolution\DBEncryption\Encrypter;
+use Quantumweb\DBEncryption\Builders\EncryptionEloquentBuilder;
+use Quantumweb\DBEncryption\Encrypter;
 
 trait EncryptedAttribute
 {
@@ -20,8 +20,6 @@ trait EncryptedAttribute
 
             return $value;
         } catch (\Throwable $e) {
-            //            Log::error($e);
-
             return $value;
         }
     }
@@ -35,8 +33,6 @@ trait EncryptedAttribute
 
             return $value;
         } catch (\Throwable $e) {
-            //            Log::error($e);
-
             return $value;
         }
     }

@@ -12,13 +12,13 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "ESolution\\DBEncryption\\": "src"
+            "Quantumweb\\DBEncryption\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ESolution\\DBEncryption\\Tests\\": "tests",
-            "ESolution\\DBEncryption\\Tests\\Database\\Factories\\": "tests/database/factories"
+            "Quantumweb\\DBEncryption\\Tests\\": "tests",
+            "Quantumweb\\DBEncryption\\Tests\\Database\\Factories\\": "tests/database/factories"
         }
     },
     "require-dev": {
@@ -28,7 +28,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ESolution\\DBEncryption\\Providers\\DBEncryptionServiceProvider"
+                "Quantumweb\\DBEncryption\\Providers\\DBEncryptionServiceProvider"
             ]
         }
     },

@@ -1,13 +1,12 @@
 <?php
 
-namespace ESolution\DBEncryption\Tests;
+namespace Quantumweb\DBEncryption\Tests;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EncryptedTest extends TestCase
 {
-
     use RefreshDatabase;
 
     /**
@@ -15,7 +14,7 @@ class EncryptedTest extends TestCase
      */
     public function it_test_if_encryption_decoding_is_working()
     {
-        $name = 'Jhon';
+        $name  = 'Jhon';
         $email = 'foo@bar.com';
 
         $user = $this->createUser($name, $email);
@@ -29,16 +28,15 @@ class EncryptedTest extends TestCase
      */
     public function it_test_if_encryption_encoding_is_working()
     {
-        $name = 'Jhon';
+        $name  = 'Jhon';
         $email = 'foo@bar.com';
-        $user = $this->createUser($name, $email);
+        $user  = $this->createUser($name, $email);
 
         $userRaw = DB::table('test_users')->select('*')->first();
 
         $this->assertEquals($userRaw->email, $user->encryptAttribute($email));
         $this->assertEquals($userRaw->name, $user->encryptAttribute($name));
     }
-
 
     /**
      * @test
@@ -57,7 +55,6 @@ class EncryptedTest extends TestCase
 
         TestUser::$enableEncryption = true;
     }
-
 
     /**
      * @test
@@ -83,7 +80,6 @@ class EncryptedTest extends TestCase
 
         $this->assertNull($user);
     }
-
 
     /**
      * @test
@@ -113,7 +109,6 @@ class EncryptedTest extends TestCase
 
         $this->assertTrue($validator->fails());
     }
-
 
     /**
      * @test
@@ -150,12 +145,11 @@ class EncryptedTest extends TestCase
     public function it_tests_that_empty_values_are_not_encrypted()
     {
         $user = $this->createUser(null, 'example@email.com');
-        $raw = DB::table('test_users')->select('*')->first();
+        $raw  = DB::table('test_users')->select('*')->first();
 
         $this->assertEmpty($raw->name);
         $this->assertEmpty($user->name);
     }
-
 
     /**
      * @test
@@ -169,7 +163,6 @@ class EncryptedTest extends TestCase
         $this->artisan('encryptable:encryptModel', ['model' => TestUser::class]);
         $this->artisan('encryptable:decryptModel', ['model' => TestUser::class]);
         $raw = DB::table('test_users')->select('*')->first();
-
 
         $this->assertEquals($user->email, $raw->email);
         $this->assertEquals($user->name, $raw->name);
@@ -192,7 +185,7 @@ class EncryptedTest extends TestCase
     public function it_test_that_whereencrypted_can_handle_single_quote()
     {
         $email = "JhOn@DoE.cOm'";
-        $name = "Single's";
+        $name  = "Single's";
         $this->createUser($name, $email);
         $query = TestUser::whereEncrypted('email', $email)->orWhereEncrypted('name', $name)->first();
 

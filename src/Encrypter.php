@@ -4,7 +4,7 @@
  *
  */
 
-namespace ESolution\DBEncryption;
+namespace Quantumweb\DBEncryption;
 
 class Encrypter
 {

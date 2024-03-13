@@ -1,11 +1,9 @@
 # Laravel Database Encryption Package
 
-
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/elgibor-solution/laravel-database-encryption.svg?style=flat-square)](https://packagist.org/packages/elgibor-solution/laravel-database-encryption) 
-[![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md) 
-[![Build Status](https://travis-ci.com/elgibor-solution/laravel-database-encryption.svg?branch=main)](https://travis-ci.com/elgibor-solution/laravel-database-encryption) 
-[![Total Downloads](https://img.shields.io/packagist/dt/elgibor-solution/laravel-database-encryption.svg?style=flat-square)](https://packagist.org/packages/elgibor-solution/laravel-database-encryption)
-
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/quantumwebco/laravel-db-encryption.svg?style=flat-square)](https://packagist.org/packages/quantumwebco/laravel-db-encryption)
+[![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Build Status](https://travis-ci.com/quantumwebco/laravel-db-encryption.svg?branch=main)](https://travis-ci.com/quantumwebco/laravel-db-encryption)
+[![Total Downloads](https://img.shields.io/packagist/dt/quantumwebco/laravel-db-encryption.svg?style=flat-square)](https://packagist.org/packages/quantumwebco/laravel-db-encryption)
 
 ## Package for encrypting and decrypting model attributes for Laravel using openssl
 
@@ -14,7 +12,7 @@
 * Encrypt, Decrypt database fields easily
 * Minimal configuration
 * Include searching encrypted data using the following:
-    `whereEncrypted` and `orWhereEncrypted`
+  `whereEncrypted` and `orWhereEncrypted`
 * uses openssl for encrypting and decrypting fields
 
 ## Requirements
@@ -37,15 +35,17 @@ We highly recommend to alter your column types to `TEXT` or `LONGTEXT`
 Via Composer command line:
 
 ```bash
-$ composer require elgibor-solution/laravel-database-encryption
+$ composer require quantumwebco/laravel-db-encryption
 ```
 
 ### Step 2: Add ServiceProvider to your app/config.php file (Laravel 5.4 or below)
+
 Add the service provider to the providers array in the config/app.php config file as follows:
+
 ```php
     'providers' => [
         ...
-        \ESolution\DBEncryption\Providers\DBEncryptionServiceProvider::class,
+        \Quantumweb\DBEncryption\Providers\DBEncryptionServiceProvider::class,
     ],
 ```
 
@@ -58,7 +58,7 @@ For example:
 
 ```php
     
-    use ESolution\DBEncryption\Traits\EncryptedAttribute;
+    use Quantumweb\DBEncryption\Traits\EncryptedAttribute;
 
     class User extends Eloquent {
         use EncryptedAttribute;
@@ -78,9 +78,9 @@ By including the `EncryptedAttribute` trait, the `setAttribute()`, `getAttribute
 methods provided by Eloquent are overridden to include an additional step.
 
 ### Searching Encrypted Fields Example:
+
 Searching encrypted field can be done by calling the `whereEncrypted` and `orWhereEncrypted` functions
 similar to laravel eloquent `where` and `orWhere`.
-
 
 ```php
     namespace App\Http\Controllers;
@@ -98,35 +98,44 @@ similar to laravel eloquent `where` and `orWhere`.
 ```
 
 ### Encrypt your current data
- If you have current data in your database you can encrypt it with the: 
-    `php artisan encryptable:encryptModel 'App\User'` command.
-    
- Additionally you can decrypt it using the:
-    `php artisan encryptable:decryptModel 'App\User'` command.
 
- Note: You must implement first the `Encryptable` trait and set `$encryptable` attributes
+If you have current data in your database you can encrypt it with the:
+`php artisan encryptable:encryptModel 'App\User'` command.
+
+Additionally you can decrypt it using the:
+`php artisan encryptable:decryptModel 'App\User'` command.
+
+Note: You must implement first the `Encryptable` trait and set `$encryptable` attributes
 
 ### Exists and Unique Validation Rules
- If you are using exists and unique rules with encrypted values replace it with exists_encrypted and unique_encrypted 
-    ```php      
-      $validator = validator(['email'=>'foo@bar.com'], ['email'=>'exists_encrypted:users,email']);
-      $validator = validator(['email'=>'foo@bar.com'], ['email'=>'unique_encrypted:users,email']);
-    ```
+
+If you are using exists and unique rules with encrypted values replace it with exists_encrypted and unique_encrypted
+
+```php      
+$validator = validator(['email'=>'foo@bar.com'], ['email'=>'exists_encrypted:users,email']);
+$validator = validator(['email'=>'foo@bar.com'], ['email'=>'unique_encrypted:users,email']);
+```
 
 ## Frequently Asked Question
+
 #### Can I search encrypted data?
+
 YES! You will able to search on attributes which are encrypted by this package because.
 If you need to search on data then use the `whereEncrypted` and `orWhereEncrypted` function:
+
 ```
     User::whereEncrypted('email','test@gmail.com')->orWhereEncrypted('email','test2@gmail.com')->firstOrFail();
 ```
+
 It will automatically added on the eloquent once the model uses `EncryptedAttribute`
 
 #### Can I encrypt all my `User` model data?
+
 Aside from IDs you can encrypt everything you wan't
 
 For example:
 Logging-in on encrypted email
+
 ```
 $user = User::whereEncrypted('email','test@gmail.com')->filter(function ($item) use ($request) {
         return Hash::check($password, $item->password);
@@ -134,10 +143,12 @@ $user = User::whereEncrypted('email','test@gmail.com')->filter(function ($item) 
 ```
 
 ## Credits
+
 This package was inspired from the following:
- [austinheap/laravel-database-encryption](https://github.com/austinheap/laravel-database-encryption)
- [magros/laravel-model-encryption](https://github.com/magros/laravel-model-encryption)
- [DustApplication/laravel-database-model-encryption](https://github.com/DustApplication/laravel-database-model-encryption.git)
- 
+[austinheap/laravel-database-encryption](https://github.com/austinheap/laravel-database-encryption)
+[magros/laravel-model-encryption](https://github.com/magros/laravel-model-encryption)
+[DustApplication/laravel-database-model-encryption](https://github.com/DustApplication/laravel-database-model-encryption.git)
+
 ## License
+
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

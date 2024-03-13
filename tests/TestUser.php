@@ -1,10 +1,10 @@
 <?php
 
-namespace ESolution\DBEncryption\Tests;
+namespace Quantumweb\DBEncryption\Tests;
 
 use Illuminate\Database\Eloquent\Model;
-use ESolution\DBEncryption\Traits\EncryptedAttribute;
-use ESolution\DBEncryption\Tests\Database\Factories\TestUserFactory;
+use Quantumweb\DBEncryption\Traits\EncryptedAttribute;
+use Quantumweb\DBEncryption\Tests\Database\Factories\TestUserFactory;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

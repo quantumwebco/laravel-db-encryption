@@ -1,8 +1,9 @@
 <?php
-namespace ESolution\DBEncryption\Tests\Database\Factories;
+
+namespace Quantumweb\DBEncryption\Tests\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use ESolution\DBEncryption\Tests\TestUser;
+use Quantumweb\DBEncryption\Tests\TestUser;
 
 class TestUserFactory extends Factory
 {
@@ -21,9 +22,9 @@ class TestUserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
+            'name'     => $this->faker->name,
+            'email'    => $this->faker->unique()->safeEmail,
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
         ];
     }
 }
