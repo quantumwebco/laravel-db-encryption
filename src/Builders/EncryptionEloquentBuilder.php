@@ -14,6 +14,7 @@ class EncryptionEloquentBuilder extends Builder
 
     public function __construct()
     {
+        parent::__construct();
         $this->salt = substr(hash('sha256', config('database-encryption.encryption_key')), 0, 16);
     }
 
