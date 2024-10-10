@@ -7,14 +7,15 @@
 namespace Quantumweb\DBEncryption\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class EncryptionEloquentBuilder extends Builder
 {
     public $salt = null;
 
-    public function __construct()
+    public function __construct(QueryBuilder $query)
     {
-        parent::__construct();
+        parent::__construct($query);
         $this->salt = substr(hash('sha256', config('database-encryption.encryption_key')), 0, 16);
     }
 
