@@ -15,7 +15,7 @@ class Encrypter
      */
     public static function encrypt($value)
     {
-        return openssl_encrypt($value, config('laravelDatabaseEncryption.encrypt_method'), self::getKey(), 0, $iv = '');
+        return openssl_encrypt($value, config('database-encryption.encryption_method'), self::getKey(), 0, $iv = '');
     }
 
     /**
@@ -25,7 +25,7 @@ class Encrypter
      */
     public static function decrypt($value)
     {
-        return openssl_decrypt($value, config('laravelDatabaseEncryption.encrypt_method'), self::getKey(), 0, $iv = '');
+        return openssl_decrypt($value, config('database-encryption.encryption_method'), self::getKey(), 0, $iv = '');
     }
 
     /**
@@ -35,7 +35,7 @@ class Encrypter
      */
     protected static function getKey()
     {
-        $salt = substr(hash('sha256', config('app.key')), 0, 16);
+        $salt = substr(hash('sha256', config('database-encryption.encryption_key')), 0, 16);
 
         return $salt;
     }

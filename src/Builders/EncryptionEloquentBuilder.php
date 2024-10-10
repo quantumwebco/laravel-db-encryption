@@ -14,14 +14,12 @@ class EncryptionEloquentBuilder extends Builder
 
     public function __construct()
     {
-        $this->salt = substr(hash('sha256', config('app.key')), 0, 16);
+        $this->salt = substr(hash('sha256', config('database-encryption.encryption_key')), 0, 16);
     }
 
     public function orderByEncrypted($column, $direction = 'asc')
     {
-        $salt = substr(hash('sha256', config('app.key')), 0, 16);
-
-        return self::orderByRaw("CONVERT(AES_DECRYPT(FROM_bASE64(`{$column}`), '{$salt}') USING utf8mb4) {$direction}");
+        return self::orderByRaw("CONVERT(AES_DECRYPT(FROM_BASE64(`{$column}`), '{$this->salt}') USING utf8mb4) {$direction}");
     }
 
     public function whereEncrypted($param1, $param2, $param3 = null)
@@ -31,9 +29,7 @@ class EncryptionEloquentBuilder extends Builder
         $filter->operation = isset($param3) ? $param2 : '=';
         $filter->value     = isset($param3) ? $param3 : $param2;
 
-        $salt = substr(hash('sha256', config('app.key')), 0, 16);
-
-        return self::whereRaw("CONVERT(AES_DECRYPT(FROM_BASE64(`{$filter->field}`), '{$salt}') USING utf8mb4) {$filter->operation} ? ", [$filter->value]);
+        return self::whereRaw("CONVERT(AES_DECRYPT(FROM_BASE64(`{$filter->field}`), '{$this->salt}') USING utf8mb4) {$filter->operation} ? ", [$filter->value]);
     }
 
     public function orWhereEncrypted($param1, $param2, $param3 = null)
@@ -43,9 +39,7 @@ class EncryptionEloquentBuilder extends Builder
         $filter->operation = isset($param3) ? $param2 : '=';
         $filter->value     = isset($param3) ? $param3 : $param2;
 
-        $salt = substr(hash('sha256', config('app.key')), 0, 16);
-
-        return self::orWhereRaw("CONVERT(AES_DECRYPT(FROM_BASE64(`{$filter->field}`), '{$salt}') USING utf8mb4) {$filter->operation} ? ", [$filter->value]);
+        return self::orWhereRaw("CONVERT(AES_DECRYPT(FROM_BASE64(`{$filter->field}`), '{$this->salt}') USING utf8mb4) {$filter->operation} ? ", [$filter->value]);
     }
 
     public function whereEncryptedConcat($param1, $param2, $param3 = null)
