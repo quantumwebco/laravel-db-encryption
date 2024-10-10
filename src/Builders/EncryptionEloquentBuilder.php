@@ -54,7 +54,7 @@ class EncryptionEloquentBuilder extends Builder
         $concat = 'CONCAT(';
         foreach ($filter->fields as $i => $field) {
             $concat .= "CONVERT(AES_DECRYPT(FROM_BASE64(`{$field}`), '{$this->salt}') USING utf8mb4)";
-            if ($i < count($filter->fields)) {
+            if ($i + 1 < count($filter->fields)) {
                 $concat .= ", ' ', ";
             }
         }
@@ -74,7 +74,7 @@ class EncryptionEloquentBuilder extends Builder
         $concat = 'CONCAT(';
         foreach ($filter->fields as $i => $field) {
             $concat .= "CONVERT(AES_DECRYPT(FROM_BASE64(`{$field}`), '{$this->salt}') USING utf8mb4)";
-            if ($i < count($filter->fields)) {
+            if ($i + 1 < count($filter->fields)) {
                 $concat .= ", ' ', ";
             }
         }
